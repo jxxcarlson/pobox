@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>App eff9</title>
+  <link rel="stylesheet" href="whatever-you-want.css">
+  <script src="main.js"></script>
+</head>
+
+<body>
+  <div id="elm"></div>
+  <script>
+  var appFlags = {"thisAppId": "fff9", "otherAppId":  "a0b3"}
+  var app = Elm.Main.init({
+    node: document.getElementById('elm')
+  , flags : appFlags
+  });
+
+  app.ports.setup.subscribe(function(data) {
+   localStorage.setItem(appFlags.thisAppId, JSON.stringify([]));
+  });
+
+  app.ports.sendMessage.subscribe(function(data) {
+    var messageList = JSON.parse(localStorage.getItem(appFlags.otherAppId))
+    messageList.push(data)
+    localStorage.setItem(appFlags.otherAppId, JSON.stringify(messageList));
+  });
+
+  app.ports.getMessage.subscribe(function(data) {
+    var messageList = localStorage.getItem(appFlags.thisAppId)
+    localStorage.setItem(appFlags.thisAppId, "[]")
+    app.ports.receiveMessage.send(JSON.parse(messageList))
+  });
+
+  // var message = localStorage.getItem(other_app_id)
+
+  // console.log("Message for " + app_id + ": "+ message)
+
+  // app.ports.receiveMessage.send(message);
+  </script>
+</body>
+</html>
