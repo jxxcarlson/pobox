@@ -18,7 +18,6 @@ The `subject` field can be something generic like "message," of it can be used a
 Ports are used both to send and receive messages.  In the current version, an app implementing PO Box asks the post office to send any waiting messages once per clock tick (one second).  When this operation is carried out, the app's mail box is cleared out.
 
 ## Demo
- 
 
 The source code for this experiment is at https://github.com/jxxcarlson/pobox
 
