@@ -216,7 +216,18 @@ messageListDisplay model =
 
 messageDisplay : Time.Zone -> Int -> Message -> Element msg
 messageDisplay zone k message =
-    row [ Font.size 14 ] [ text <| (String.fromInt (k + 1)) ++ ". " ++ (Message.niceDate zone message.timeSent) ++ "  " ++ message.body ]
+    row [ Font.size 14 ]
+        [ text <|
+            (String.fromInt (k + 1))
+                ++ ". "
+                ++ message.from
+                ++ " "
+                ++ (Message.timeString zone message.timeSent)
+                ++ "  "
+                ++ message.subject
+                ++ ": "
+                ++ message.body
+        ]
 
 
 inputText : Model -> Element Msg

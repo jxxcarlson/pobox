@@ -1,4 +1,13 @@
-module Message exposing (Message, MessageForm, encode, decode, decodeMessageList, niceDate)
+module Message
+    exposing
+        ( Message
+        , MessageForm
+        , encode
+        , decode
+        , decodeMessageList
+        , dateString
+        , timeString
+        )
 
 import Json.Encode as E
 import Json.Decode as D
@@ -74,8 +83,8 @@ messageDecoder zone =
         ((D.field "timeSent" D.int) |> D.map Time.millisToPosix)
 
 
-niceDate : Time.Zone -> Time.Posix -> String
-niceDate zone time =
+dateString : Time.Zone -> Time.Posix -> String
+dateString zone time =
     let
         second =
             Time.toSecond zone time |> padZero
@@ -96,6 +105,21 @@ niceDate zone time =
             Time.toYear zone time |> String.fromInt
     in
         month ++ "-" ++ day ++ "-" ++ year ++ " " ++ hour ++ ":" ++ minute ++ ":" ++ second
+
+
+timeString : Time.Zone -> Time.Posix -> String
+timeString zone time =
+    let
+        second =
+            Time.toSecond zone time |> padZero
+
+        minute =
+            Time.toMinute zone time |> padZero
+
+        hour =
+            Time.toHour zone time |> padZero
+    in
+        hour ++ ":" ++ minute ++ ":" ++ second
 
 
 monthString : Time.Zone -> Time.Posix -> String

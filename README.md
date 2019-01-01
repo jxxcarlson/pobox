@@ -15,11 +15,13 @@ type alias Message =
 
 The `subject` field can be something generic like "message," of it can be used as a key for determining what action the receiving app takes on the information contained in the message `body`.  Of course, the `Message` type can be customized according to need.
 
+When app `aaa123` sends a message to `xxx456`, that message is appended to the list with key `xxx456`.  Thus a app `xxx456` may receive messages from many others.
+
 Ports are used both to send and receive messages.  In the current version, an app implementing PO Box asks the post office to send any waiting messages once per clock tick (one second).  When this operation is carried out, the app's mail box is cleared out.
 
 ## Demo
 
-The source code for this experiment is at https://github.com/jxxcarlson/pobox
+In the demo, all messages are sent with subject "message".  The source code for this experiment is at https://github.com/jxxcarlson/pobox
 
 To play with PO Box, do `sh make.sh`, then click on `index1.html`  and `index2.html`.  Your browser should be configues so that these open up in different tabs of the same browser window.  Try sending messages from each app, and see what happens in the other app.
 
