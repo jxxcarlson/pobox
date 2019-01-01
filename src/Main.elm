@@ -166,6 +166,7 @@ mainColumn model =
             [ title <| "App " ++ model.thisAppId
             , inputText model
             , sendMessageButton
+            , heading "Message received"
             , messageListDisplay model
             , outputDisplay model
             ]
@@ -175,6 +176,11 @@ mainColumn model =
 title : String -> Element msg
 title str =
     row [ centerX, Font.bold ] [ text str ]
+
+
+heading : String -> Element msg
+heading str =
+    row [ centerX, moveDown 8 ] [ text str ]
 
 
 outputDisplay : Model -> Element msg
@@ -198,7 +204,7 @@ outputDisplay model =
 messageListDisplay : Model -> Element msg
 messageListDisplay model =
     column
-        [ height (px 400)
+        [ height (px 380)
         , width (px 400)
         , spacing 4
         , scrollbarY
