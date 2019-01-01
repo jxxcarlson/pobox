@@ -166,7 +166,7 @@ mainColumn model =
             [ title <| "App " ++ model.thisAppId
             , inputText model
             , sendMessageButton
-            , heading "Message received"
+            , heading "Messages received"
             , messageListDisplay model
             , outputDisplay model
             ]
