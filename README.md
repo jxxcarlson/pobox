@@ -18,7 +18,9 @@ Ports are used both to send and receive messages.  In the current version, an ap
 
 ## Demo
 
-To experiment with PO Box, do `sh make.sh`, then click on `index1.html`  and `index2.html`.  Your browser should be configues so that these open up in different tabs of the same browser window.  Try sending messages from each app, and see what happens in the other app.
+The source code for this experiment is at https://github.com/jxxcarlson/pobox
+
+To play with PO Box, do `sh make.sh`, then click on `index1.html`  and `index2.html`.  Your browser should be configues so that these open up in different tabs of the same browser window.  Try sending messages from each app, and see what happens in the other app.
 
 In this demo, both apps are identical. They don't have to be.
 
