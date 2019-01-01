@@ -103,7 +103,7 @@ update msg model =
             ( model, Cmd.none )
 
         Tick newTime ->
-            ( model, getNewTime )
+            ( model, Cmd.batch [ getNewTime, getMessage (E.string "getMessage") ] )
 
         NewTime newTime ->
             ( { model | time = newTime }, Cmd.none )
@@ -127,22 +127,14 @@ update msg model =
                         , expiration = 60
                         }
             in
-                ( { model
-                    | output = "Sent message #" ++ (String.fromInt (model.messagesSentCounter + 1))
-                    , messagesSentCounter = model.messagesSentCounter + 1
-                  }
+                ( { model | messagesSentCounter = model.messagesSentCounter + 1 }
                 , sendMessage message
                 )
 
         ReceivedMessage value ->
             case Message.decodeMessageList model.zone value of
                 Ok messageList ->
-                    ( { model
-                        | messageList = model.messageList ++ messageList
-                        , output = "Messages: " ++ (String.fromInt (List.length messageList))
-                      }
-                    , Cmd.none
-                    )
+                    ( { model | messageList = model.messageList ++ messageList }, Cmd.none )
 
                 Err err ->
                     ( { model | output = D.errorToString err }, Cmd.none )
@@ -174,7 +166,6 @@ mainColumn model =
             [ title <| "App " ++ model.thisAppId
             , inputText model
             , sendMessageButton
-            , getMessageButton
             , messageListDisplay model
             , outputDisplay model
             ]
@@ -188,17 +179,31 @@ title str =
 
 outputDisplay : Model -> Element msg
 outputDisplay model =
-    row [ centerX, Font.size 16 ]
-        [ text model.output ]
+    let
+        sentString =
+            "Sent: " ++ (String.fromInt model.messagesSentCounter)
+
+        receivedString =
+            "Received: " ++ (String.fromInt <| List.length model.messageList)
+
+        display =
+            sentString ++ ", " ++ receivedString
+    in
+        row [ centerX, Font.size 16, spacing 40 ]
+            [ column [] [ text sentString ]
+            , column [] [ text receivedString ]
+            ]
 
 
 messageListDisplay : Model -> Element msg
 messageListDisplay model =
     column
-        [ height (px 340)
+        [ height (px 400)
+        , width (px 400)
         , spacing 4
         , scrollbarY
         , paddingXY 4 8
+        , Background.color (rgb255 255 255 255)
         ]
         (model.messageList |> List.indexedMap (messageDisplay model.zone))
 
@@ -228,16 +233,6 @@ sendMessageButton =
         ]
 
 
-getMessageButton : Element Msg
-getMessageButton =
-    row [ centerX ]
-        [ Input.button buttonStyle
-            { onPress = Just GetMessage
-            , label = el [ centerX, centerY, width (px 140) ] (text "Get messages")
-            }
-        ]
-
-
 
 --
 -- STYLE
@@ -247,7 +242,7 @@ getMessageButton =
 mainColumnStyle =
     [ centerX
     , centerY
-    , Background.color (rgb255 240 240 240)
+    , Background.color (rgb255 230 230 230)
     , paddingXY 20 20
     ]
 

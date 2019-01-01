@@ -87,13 +87,13 @@ niceDate zone time =
             Time.toHour zone time |> padZero
 
         day =
-            Time.toDay zone time |> padZero
+            Time.toDay zone time |> String.fromInt
 
         month =
             monthString zone time
 
         year =
-            Time.toYear zone time |> padZero
+            Time.toYear zone time |> String.fromInt
     in
         month ++ "-" ++ day ++ "-" ++ year ++ " " ++ hour ++ ":" ++ minute ++ ":" ++ second
 
@@ -102,31 +102,31 @@ monthString : Time.Zone -> Time.Posix -> String
 monthString zone time =
     case Time.toMonth zone time of
         Time.Jan ->
-            "01"
+            "1"
 
         Time.Feb ->
-            "02"
+            "2"
 
         Time.Mar ->
-            "03"
+            "3"
 
         Time.Apr ->
-            "04"
+            "4"
 
         Time.May ->
-            "05"
+            "5"
 
         Time.Jun ->
-            "06"
+            "6"
 
         Time.Jul ->
-            "07"
+            "7"
 
         Time.Aug ->
-            "08"
+            "8"
 
         Time.Sep ->
-            "09"
+            "9"
 
         Time.Oct ->
             "10"
